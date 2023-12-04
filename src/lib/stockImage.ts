@@ -14,7 +14,7 @@ export interface StockImage {
 }
 
 export async function getStockImagesForQueryUnsplash(
-  query,
+  query: string,
   count = 1,
 ): Promise<StockImage[]> {
   const searchResult = await unsplash.search.getPhotos({ query });
@@ -33,7 +33,7 @@ export async function getStockImagesForQueryUnsplash(
 }
 
 export async function getStockImagesForQueryPexels(
-  query,
+  query: string,
   count = 1,
 ): Promise<StockImage[]> {
   const searchResult = (await pexels.photos.search({
@@ -54,7 +54,7 @@ export async function getStockImagesForQueryPexels(
 }
 
 export async function getStockImagesForQuery(
-  query,
+  query: string,
   count = 1,
   provider: "unsplash" | "pexels" = "pexels",
 ): Promise<StockImage[]> {

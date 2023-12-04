@@ -1,5 +1,7 @@
 import { input } from "@inquirer/prompts";
 import * as cheerio from "cheerio";
+import { WorkflowPost } from "../interfaces/workflow.ts";
+import { dumpTextToFile } from "./file-helper.ts";
 
 export interface PostData {
   originalUrl?: URL;
@@ -10,7 +12,7 @@ export interface PostData {
 export enum PostLengths {
   Short = "6 H2/H3 headings",
   Medium = "12-18 H2/H3 Headings",
-  Long = "20+ h2/h3 headings",
+  Long = "20+ H2/H3 headings",
 }
 
 /** Fetches a Blog post from a url that we promt the user */
@@ -23,10 +25,21 @@ export async function getPostFromUrlPromt() {
     });
   }
 
-  return getPostFromUrl(url);
+  const title = await input({
+    message:
+      "Enter the title of the article, if you want to change it, otherwise leave empty",
+  });
+
+  const workflowPost: WorkflowPost = {
+    postUrl: url,
+    title,
+  };
+  return workflowPost;
 }
 
-export async function getPostFromUrl(url: string): Promise<PostData> {
+export async function dumpPostArticleContentFromUrl(
+  url: string,
+): Promise<PostData> {
   const originalUrl = new URL(url);
 
   // get the article text
@@ -41,6 +54,11 @@ export async function getPostFromUrl(url: string): Promise<PostData> {
   if (!articleHtml) {
     throw new Error("No article text found");
   }
+
+  dumpTextToFile({
+    filename: title || new Date().getTime() + ".html",
+    text: articleHtml,
+  });
 
   return {
     originalUrl,

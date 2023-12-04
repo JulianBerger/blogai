@@ -1,4 +1,10 @@
 import OpenAI from "openai";
+import fs from "fs";
+import { Readable } from "stream";
+import nodeFetch from "node-fetch";
+import { downloadFile } from "./download.ts";
+import { getSlug } from "./slug.ts";
+import { getPathSafe } from "./path.ts";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY not set");
@@ -10,7 +16,7 @@ export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function generateImageFromPrompt(
+export async function downloadImageForPrompt(
   prompt: string,
   size:
     | "256x256"
@@ -34,5 +40,18 @@ export async function generateImageFromPrompt(
   }
 
   const imageUrl = imageResult.data.shift()?.url;
-  return imageUrl;
+
+  if (!imageUrl) {
+    return undefined;
+  }
+
+  // get filename from promt
+  const fileName = getSlug(prompt, { lower: true, strict: true }) + ".jpg";
+
+  const filePath = getPathSafe("./.generated-images", fileName);
+
+  // download image to file
+  await downloadFile(imageUrl, filePath);
+
+  return filePath;
 }
