@@ -16,8 +16,10 @@
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "openai": "^4.20.1",
+    "pexels": "^1.4.0",
     "prettier": "^3.1.0",
-    "turndown": "^7.1.2"
+    "turndown": "^7.1.2",
+    "unsplash-js": "^7.0.18"
   },
   "devDependencies": {
     "typescript": "^5.3.2"

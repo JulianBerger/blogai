@@ -2,6 +2,7 @@ import { input } from "@inquirer/prompts";
 import * as cheerio from "cheerio";
 
 export interface PostData {
+  originalUrl?: URL;
   title: string;
   html: string;
 }
@@ -26,8 +27,10 @@ export async function getPostFromUrlPromt() {
 }
 
 export async function getPostFromUrl(url: string): Promise<PostData> {
+  const originalUrl = new URL(url);
+
   // get the article text
-  const response = await fetch(url);
+  const response = await fetch(originalUrl);
   const html = await response.text();
   const doc = cheerio.load(html);
 
@@ -40,6 +43,7 @@ export async function getPostFromUrl(url: string): Promise<PostData> {
   }
 
   return {
+    originalUrl,
     title,
     html: articleHtml,
   };

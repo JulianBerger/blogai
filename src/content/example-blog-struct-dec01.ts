@@ -1,4 +1,13 @@
-const post = `If you're wanting to look like a billionaire, then this is the article for you. This is a list of brands that are worn exclusively by incredibly wealthy people, including Old Money Brands. 
+const post = `
+---
+title: <TITLE>
+description: <DESCRIPTION>
+date: <DATE>
+category: <CATEGORY>
+image: <IMAGE>
+---
+
+If you're wanting to look like a billionaire, then this is the article for you. This is a list of brands that are worn exclusively by incredibly wealthy people, including Old Money Brands. 
  
 Old Money Brand aesthetic recently saw an increase in popularity on TikTok - and this classic menswear way of dressing has never truly fallen completely out of fashion.
  
